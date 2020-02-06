@@ -3,11 +3,9 @@ require 'bundler/inline'
 gemfile do
   source 'https://rubygems.org'
   gem 'pry'
-  gem 'rubyzip', '>= 1.0.0'
   gem 'aws-sdk-s3', '~> 1'
 end
 
-require 'zip'
 require './get_aws_profile.rb'
 
 ###############################
@@ -33,20 +31,6 @@ s3_client.create_bucket(
   }
 )
 
-#################
-# zip code file #
-#################
-
-folder = Dir.pwd
-input_filenames = ['index.js']
-zipfile_name = File.join(Dir.pwd, 'todo-project.zip')
-
-File.delete(zipfile_name) if File.exist?(zipfile_name)
-
-Zip::File.open(zipfile_name, Zip::File::CREATE) do |zipfile|
-  input_filenames.each do |filename|
-    zipfile.add(filename, File.join(folder, filename))
-  end
 end
 
 `docker run \
@@ -59,4 +43,3 @@ end
   hashicorp/terraform:0.12.12 \
   init`
 
-File.delete(zipfile_name) if File.exist?(zipfile_name)
