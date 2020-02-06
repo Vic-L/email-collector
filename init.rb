@@ -24,22 +24,25 @@ s3_client = Aws::S3::Client.new(
   region: 'eu-west-1'
 )
 
-s3_client.create_bucket(
-  bucket: 'todo-project-tfstate',
-  create_bucket_configuration: {
-    location_constraint: 'eu-west-1'
-  }
-)
-
+begin
+  s3_client.head_bucket({bucket: 'todo-project-tfstate', use_accelerate_endpoint: false})
+rescue StandardError
+  s3_client.create_bucket(
+    bucket: 'todo-project-tfstate',
+    create_bucket_configuration: {
+      location_constraint: 'eu-west-1'
+    }
+  )
 end
 
-`docker run \
+response = `docker run \
   --rm \
   --env AWS_ACCESS_KEY_ID=#{aws_access_key_id} \
   --env AWS_SECRET_ACCESS_KEY=#{aws_secret_access_key} \
-  -v $(pwd):/workspace \
+  -v #{Dir.pwd}:/workspace \
   -w /workspace \
   -it \
   hashicorp/terraform:0.12.12 \
   init`
 
+puts response
