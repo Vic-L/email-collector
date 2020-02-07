@@ -10,7 +10,7 @@ variable "region" {
 
 variable "stage" {
   type = string
-  default = "todo-STAGE"
+  default = "todo-stage"
 }
 
 variable "zipfile_name" {
@@ -27,3 +27,5 @@ variable "dynamodb-write_capacity" {
   type = number
   default = 1
 }
+
+data "aws_caller_identity" "current" {}
