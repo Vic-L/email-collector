@@ -12,7 +12,7 @@ exports.handler = async (event) => {
   const params = {
     TableName: 'todo-dynamodb_table',
     Item: {
-      'email' : {S: event.email}
+      'email' : {S: JSON.parse(event.body).email}
     }
   };
 
