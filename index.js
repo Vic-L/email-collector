@@ -20,33 +20,32 @@ exports.handler = async (event) => {
   ddb.putItem(params, function(err, data) {
     if (err) {
       console.log("Error", err);
-      const response = {
-        statusCode: 500,
-      };
-      return response;
     } else {
       console.log("Success", data);
-      const response = {
-        statusCode: 204,
-        headers: {
-          "Access-Control-Allow-Origin" : "*",
-          "Access-Control-Allow-Credentials": "true"
-        },
-      };
-      return response;
     }
   });
   
   try {
     const result = await ddb.putItem(params).promise();
-    console.log("Success", JSON.stringify(result, null, 2));
-  }
-  catch(err) {
+    console.log("Result", result);
+    const response = {
+      statusCode: 204,
+      headers: {
+        "Access-Control-Allow-Origin" : "*",
+        "Access-Control-Allow-Credentials": "true"
+      },
+    };
+    return response;
+  } catch(err) {
     console.log(err);
+    const response = {
+      statusCode: 500,
+      headers: {
+        "Access-Control-Allow-Origin" : "*",
+        "Access-Control-Allow-Credentials": "true"
+      },
+      body: JSON.stringify({ error: err.message }),
+    };
+    return response;
   }
-
-  const response = {
-    statusCode: 204,
-  };
-  return response;
 };
