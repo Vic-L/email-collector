@@ -27,5 +27,3 @@ variable "dynamodb-write_capacity" {
   type = number
   default = 1
 }
-
-data "aws_caller_identity" "current" {}

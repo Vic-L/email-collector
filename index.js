@@ -10,7 +10,7 @@ const ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 exports.handler = async (event) => {
   console.log(JSON.stringify(event, null, 2));
   const params = {
-    TableName: 'todo-dynamodb_table',
+    TableName: 'todo-project-dynamodb_table',
     Item: {
       'email' : {S: JSON.parse(event.body).email}
     }
@@ -32,7 +32,6 @@ exports.handler = async (event) => {
       statusCode: 204,
       headers: {
         "Access-Control-Allow-Origin" : "*",
-        "Access-Control-Allow-Credentials": "true"
       },
     };
     return response;
@@ -42,7 +41,6 @@ exports.handler = async (event) => {
       statusCode: 500,
       headers: {
         "Access-Control-Allow-Origin" : "*",
-        "Access-Control-Allow-Credentials": "true"
       },
       body: JSON.stringify({ error: err.message }),
     };

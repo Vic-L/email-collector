@@ -32,7 +32,7 @@ EOF
 resource "aws_iam_policy" "main" {
   name = "main"
   path = "/"
-  description = "IAM policy for logging from a lambda"
+  description = "IAM policy for lambda to write to dynamodb table and logging"
 
   policy = templatefile("${path.module}/lambda_policy.tmpl", { dynamodb_arn = aws_dynamodb_table.main.arn })
 }

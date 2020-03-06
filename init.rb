@@ -25,7 +25,10 @@ s3_client = Aws::S3::Client.new(
 )
 
 begin
-  s3_client.head_bucket({bucket: 'todo-project-tfstate', use_accelerate_endpoint: false})
+  s3_client.head_bucket({
+    bucket: 'todo-project-tfstate',
+    use_accelerate_endpoint: false
+  })
 rescue StandardError
   s3_client.create_bucket(
     bucket: 'todo-project-tfstate',
